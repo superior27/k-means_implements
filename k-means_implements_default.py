@@ -38,6 +38,18 @@ def calculateDistance(list_centroid):
     new_list_point = np.array(my_list_point)
     return new_list_point
 
-my_list_centroid = choiceQuantityCentroid(3)
-print my_list_centroid
-calculateDistance(my_list_centroid)
+def classificationPoints(list_points):
+    my_list_point = []
+    for element_point in list_points:
+        menor = min(element_point[2::])
+        number = np.where(element_point==menor)
+        element_point = np.append(element_point,(number[0][0]-2))
+        my_list_point.append(element_point)
+    new_list_point = np.array(my_list_point)
+    del my_list_point
+    return new_list_point
+my_list_centroid = createQuantityCentroid(3)
+my_list_centroid
+my_list_points = calculateDistance(my_list_centroid)
+my_list_points
+print classificationPoints(my_list_points)
