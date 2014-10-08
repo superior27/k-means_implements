@@ -48,8 +48,30 @@ def classificationPoints(list_points):
     new_list_point = np.array(my_list_point)
     del my_list_point
     return new_list_point
+
+def recalculateCentroid(list_centroid,list_points):
+    i = 0
+    cont_element = 0
+    while(i < len(list_centroid)):
+        media_centroid_x = 0
+        media_centroid_y = 0
+        cont_element = 0
+        for element_point in list_points:
+            if element_point[-1] == i:
+                media_centroid_x+=element_point[0]
+                media_centroid_y+=element_point[1]
+                cont_element+=1
+        if cont_element:
+            media_centroid_x = media_centroid_x/cont_element
+            media_centroid_y = media_centroid_y/cont_element
+            list_centroid[i][0] = media_centroid_x
+            list_centroid[i][1] = media_centroid_y
+        print list_centroid[i]
+        i+=1
+
+
 my_list_centroid = createQuantityCentroid(3)
-my_list_centroid
+print my_list_centroid
 my_list_points = calculateDistance(my_list_centroid)
-my_list_points
-print classificationPoints(my_list_points)
+my_list_points = classificationPoints(my_list_points)
+recalculateCentroid(my_list_centroid,my_list_points)
