@@ -52,6 +52,7 @@ def classificationPoints(list_points):
 def recalculateCentroid(list_centroid,list_points):
     i = 0
     cont_element = 0
+    new_list_centroid = list_centroid
     while(i < len(list_centroid)):
         media_centroid_x = 0
         media_centroid_y = 0
@@ -64,14 +65,34 @@ def recalculateCentroid(list_centroid,list_points):
         if cont_element:
             media_centroid_x = media_centroid_x/cont_element
             media_centroid_y = media_centroid_y/cont_element
-            list_centroid[i][0] = media_centroid_x
-            list_centroid[i][1] = media_centroid_y
-        print list_centroid[i]
+            new_list_centroid[i][0] = media_centroid_x
+            new_list_centroid[i][1] = media_centroid_y        
         i+=1
+    del list_centroid
+    return new_list_centroid
 
+def myLoop():
+    cont = 0
+    number = int(raw_input("Informe o número de Centróides que deseja:"))
+    flag = 1
+    my_list_centroid = createQuantityCentroid(number)
+    my_list_points = calculateDistance(my_list_centroid)
+    my_list_points = classificationPoints(my_list_points)    
+    old_list_centroid = my_list_centroid.copy()
+    print my_list_centroid
+    print old_list_centroid
+    while flag or cont == 30:
+        my_list_centroid = recalculateCentroid(my_list_centroid,my_list_points)
+        my_list_points = calculateDistance(my_list_centroid)
+        my_list_points = classificationPoints(my_list_points)
+        print my_list_centroid
+        print old_list_centroid
+        if np.array_equal(my_list_centroid, old_list_centroid):
+            flag = 0
+        else:
+            old_list_centroid = my_list_centroid.copy()
+        cont+=1
+    print "Número de interações: "+str(cont)
+        
 
-my_list_centroid = createQuantityCentroid(3)
-print my_list_centroid
-my_list_points = calculateDistance(my_list_centroid)
-my_list_points = classificationPoints(my_list_points)
-recalculateCentroid(my_list_centroid,my_list_points)
+myLoop()
